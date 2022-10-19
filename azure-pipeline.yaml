@@ -1,0 +1,59 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
+# Install Python. The version must match the version on the Databricks cluster.
+- task: UsePythonVersion@0
+  displayName: 'Use Python 3.7'
+  inputs:
+    versionSpec: 3.7
+
+# Install required Python modules, including databricks-connect, required to execute a unit test
+# on a cluster.
+- script: |
+    pip install pytest requests setuptools wheel databricks-cli
+  displayName: 'Load Python Dependencies'
+
+
+- task: DownloadSecureFile@1
+  name: databricksconfig
+  displayName: 'Download DB Config'
+  inputs:
+    secureFile: 'databrickscfg'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: 'databrickscfg'
+    TargetFolder: '$(Agent.BuildDirectory)'
+  displayName: "Import databrickscfg"
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo Write your commands here
+      ls -lhrt
+      ls -lhrt root
+      ls -lhrt $(Agent.BuildDirectory)
+      export DATABRICKS_CONFIG_FILE='$(Agent.BuildDirectory)'/databrickscfg
+      echo $DATABRICKS_CONFIG_FILE
+      dbfs ls
+      dbfs cp ./data/ dbfs:/Deployment/data --recursive
+  displayName: "Establish databricks connectivity & Copy the file"
+
