@@ -54,6 +54,6 @@ steps:
       export DATABRICKS_CONFIG_FILE='$(Agent.BuildDirectory)'/databrickscfg
       echo $DATABRICKS_CONFIG_FILE
       dbfs ls
-      dbfs cp ./extration.py/ dbfs:/Deployment/data --recursive
+      dbfs cp ./ml_data/ dbfs:/Deployment/data --recursive
   displayName: "Establish databricks connectivity & Copy the file"
 
