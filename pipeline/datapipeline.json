@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Python1",
+				"name": "data_extraction",
 				"type": "DatabricksSparkPython",
 				"dependsOn": [],
 				"policy": {
@@ -17,6 +17,26 @@
 				"typeProperties": {
 					"pythonFile": "dbfs:/Deployment/ml_data/extration.py"
 				}
+			},
+			{
+				"name": "version the data",
+				"type": "DatabricksSparkPython",
+				"dependsOn": [
+					{
+						"activity": "data_extraction",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
 			}
 		],
 		"annotations": []
