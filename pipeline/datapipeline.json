@@ -41,7 +41,14 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"pythonFile": "dbfs:/Deployment/ml_data/extration.py"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksdev",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": []
