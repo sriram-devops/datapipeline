@@ -57,3 +57,9 @@ steps:
       dbfs cp ./ml_data/ dbfs:/Deployment/data --recursive
   displayName: "Establish databricks connectivity & Copy the file"
 
+- task: trigger-adf-pipeline@2
+  inputs:
+    azureSubscription: 'Triage Production Centralus'
+    ResourceGroupName: 'jia-rg-prd-centralus'
+    DatafactoryName: 'jia-adf-prd-centralus'
+    PipelineFilter: 'datapipeline'
