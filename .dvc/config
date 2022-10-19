@@ -1,0 +1,4 @@
+[core]
+    remote = azure_data_registry
+['remote "azure_data_registry"']
+    url = azure://curated/data
